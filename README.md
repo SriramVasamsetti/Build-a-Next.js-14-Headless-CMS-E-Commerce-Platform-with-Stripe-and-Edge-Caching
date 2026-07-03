@@ -221,19 +221,86 @@ Configure Stripe and Sanity webhooks after deployment.
 
 ```text
 ecommerce-platform/
-├── app/
-├── components/
-├── lib/
-├── prisma/
-├── public/
-├── services/
-├── store/
-├── Dockerfile
+│
+├── .env.example
+├── .gitignore
 ├── docker-compose.yml
+├── Dockerfile
+├── next.config.js
 ├── package.json
-└── README.md
+├── README.md
+├── submission.json
+│
+├── reports/
+│   └── lighthouse.json
+│
+├── prisma/
+│   ├── schema.prisma
+│   └── seed.js
+│
+├── app/
+│   │
+│   ├── layout.js             # Root layout, includes Navbar, AuthProvider, ZustandProvider
+│   ├── page.js               # Homepage
+│   ├── sitemap.js            # Dynamic sitemap generation
+│   │
+│   ├── products/
+│   │   ├── page.js           # Product grid listing
+│   │   └── [slug]/
+│   │          page.js        # Product detail page (ISR)
+│   │
+│   ├── checkout/
+│   │      page.js            # Checkout page
+│   │
+│   └── api/
+│        ├── auth/
+│        │      [...nextauth]/
+│        │          route.js  # NextAuth API route
+│        │
+│        ├── cart/
+│        │      route.js      # GET/POST for cart operations
+│        │
+│        ├── checkout/
+│        │      route.js      # Creates Stripe checkout session
+│        │
+│        ├── revalidate/
+│        │      route.js      # On-demand revalidation API
+│        │
+│        └── webhooks/
+│              └── stripe/
+│                    route.js # Stripe webhook handler
+│
+├── components/
+│      Navbar.jsx             # Main navigation bar
+│      ProductCard.jsx        # Individual product card for grid
+│      ProductGrid.jsx        # Container for product cards
+│      ProductGallery.jsx     # Image gallery for product detail
+│      AddToCartButton.jsx    # Client component to add items to cart
+│      CartIndicator.jsx      # Client component to display cart item count
+│      CheckoutForm.jsx       # Client component for checkout details
+│      AuthButtons.jsx        # Login/Logout buttons
+│      SessionProvider.jsx    # NextAuth session provider
+│      ZustandProvider.jsx    # Zustand context provider
+│
+├── lib/
+│      prisma.js              # Prisma client instance
+│      stripe.js              # Stripe client instance
+│      cms.js                 # Sanity CMS client and data fetching
+│      cache.js               # Custom caching utilities (unstable_cache, revalidateTag)
+│      auth.js                # NextAuth configuration
+│      utils.js               # Utility functions (cn, etc.)
+│
+├── services/
+│      cartService.js         # Business logic for cart operations
+│      productService.js      # Business logic for product data
+│      orderService.js        # Business logic for order creation/management
+│
+├── store/
+│      cartStore.js           # Zustand store for cart state
+│
+└── public/
+       images/                # Static images (e.g., placeholder, logo)
 ```
-
 ---
 
 ## 🛠 Troubleshooting
